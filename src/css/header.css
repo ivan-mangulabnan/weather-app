@@ -1,0 +1,53 @@
+header {
+  height: 100px;
+  width: 100%;
+  background-color: var(--color-soft-blue);
+  border-bottom: var(--color-soft-gray);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-div {
+  height: 40px;
+  border-radius: 2rem;
+  border: 2px solid var(--color-medium-gray);
+  padding: 0 1rem;
+  background-color: var(--color-white-background);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-div > input:first-of-type {
+  border: none;
+  width: 400px;
+  outline: none;
+}
+
+.search-div > input[type="date"] {
+  width: 125px;
+  border: none;
+  outline: none;
+}
+
+.search-icon {
+  background: url("../assets/icons/magnify.svg");
+  background-size: contain;
+}
+
+.search-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.search-btn:hover {
+  background-color: var(--color-hover-blue);
+}
