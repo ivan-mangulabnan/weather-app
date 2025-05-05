@@ -13,7 +13,7 @@ header {
 .search-div {
   height: 40px;
   border-radius: 2rem;
-  border: 2px solid var(--color-medium-gray);
+  border: 2px solid var(--color-soft-gray);
   padding: 0 1rem;
   background-color: var(--color-white-background);
 
@@ -33,6 +33,7 @@ header {
   width: 125px;
   border: none;
   outline: none;
+  color: var(--color-black-font);
 }
 
 .search-icon {
