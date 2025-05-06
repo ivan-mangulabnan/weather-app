@@ -7,9 +7,14 @@ export function showSummary (weatherJSON) {
   const address = summarySection('ADDRESS', weatherJSON.resolvedAddress);
   const timezone = summarySection('TIMEZONE', weatherJSON.timezone);
   const totalDays = summarySection('NO OF DAYS', weatherJSON.days.length);
-  const description = summarySection('SUMMARY', weatherJSON.description);
 
-  outerDiv.append(address, timezone, totalDays, description);
+  outerDiv.append(address, timezone, totalDays);
+
+  if (weatherJSON.description) {
+    const description = summarySection('SUMMARY', weatherJSON.description);
+    outerDiv.appendChild(description);
+  }
+
   DomEle.contentDiv.appendChild(outerDiv);
 }
 
