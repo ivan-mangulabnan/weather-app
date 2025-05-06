@@ -1,16 +1,23 @@
 import { DomEle } from "./dom.js";
 import { getGif } from "./get-gif.js";
 import { format } from "date-fns";
+import { showHourlyDiv } from "./hour-boxes.js";
 
 export async function displayDailyWeather (weatherJSON) {
   const outerDiv = document.createElement('div');
   outerDiv.classList.add('weather-days');
 
   const days = weatherJSON.days;
-  const dayDivs = await Promise.all(days.map(createDay));
-  dayDivs.forEach(div => outerDiv.appendChild(div));
 
-  DomEle.contentDiv.appendChild(outerDiv);
+  const dayDivs = await Promise.all(days.map(createDay));
+  dayDivs.forEach((div, index) => {
+    div.setAttribute('data-index', index);
+    outerDiv.appendChild(div)
+  });
+  console.log(days);
+  const hourMainDiv = await showHourlyDiv(days[0].hours);
+
+  DomEle.contentDiv.append(outerDiv, hourMainDiv);
 }
 
 async function createDay (day) {
