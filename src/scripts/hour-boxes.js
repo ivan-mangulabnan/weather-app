@@ -8,10 +8,10 @@ export async function showHourlyDiv (hours) {
   const title = document.createElement('p');
   title.textContent = "HOURLY";
 
-  console.log(hours);
   const response = await Promise.all(hours.map(hourlyDivs));
   response.forEach(div => innerDiv.appendChild(div));
 
+  title.classList.add('hourly-text');
   innerDiv.classList.add('hour-div');
 
   mainWrapper.append(title, innerDiv);
