@@ -11,10 +11,11 @@ export async function displayDailyWeather (weatherJSON) {
 
   const dayDivs = await Promise.all(days.map(createDay));
   dayDivs.forEach((div, index) => {
+    if (index === 0) div.classList.add('selected');
     div.setAttribute('data-index', index);
     outerDiv.appendChild(div)
   });
-  console.log(days);
+
   const hourMainDiv = await showHourlyDiv(days[0].hours);
 
   DomEle.contentDiv.append(outerDiv, hourMainDiv);
