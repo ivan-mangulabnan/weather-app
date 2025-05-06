@@ -4,7 +4,7 @@ export let cachedWeather = null;
 
 export async function getWeatherJSON () {
   try {
-    const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${UserInput.location}?key=VZNB7QCW8AXR5TMH3UKK6ELY4`);
+    const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${UserInput.location}?key=BTXJXKDWCKW43S3YA86JHUVU8`);
     const json = await response.json();
     cachedWeather = json;
     return json;
