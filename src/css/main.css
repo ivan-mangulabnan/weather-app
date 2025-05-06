@@ -117,3 +117,14 @@ main {
   margin-top: .5rem;
   font-size: .9rem;
 }
+
+.hourly-text {
+  font-family: var(--font-montserrat);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.selected {
+  background-color: #d0e8ff;
+  box-shadow: 0px 5px 5px #aaa;
+}
