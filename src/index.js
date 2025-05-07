@@ -6,24 +6,27 @@ import { showSummary } from "./scripts/summary.js";
 import { hourlyDivs } from "./scripts/hour-boxes.js";
 import { cachedWeather } from "./scripts/get-weather.js";
 
-DomEle.searchBtn.addEventListener('click', e => {
-  display();
+DomEle.searchBtn.addEventListener('click', async (e) => {
+  await preventMultipleQueries(display);
 })
 
-DomEle.contentDiv.addEventListener('click', event => {
-  if (event.target.closest('.day-div')) {
-    const dayDiv = event.target.closest('.day-div');
-    const dayIndex = dayDiv.dataset.index;
-    changeHourly(dayIndex);
-    styleChosenDiv(event);
-  } 
+DomEle.contentDiv.addEventListener('click', async (event) => {
+  preventMultipleQueries(async () => {
+    if (event.target.closest('.day-div')) {
+      const dayDiv = event.target.closest('.day-div');
+      const dayIndex = dayDiv.dataset.index;
+      if (dayIndex === document.querySelector('.day-div.selected').dataset.index) return;
+      await changeHourly(dayIndex);
+      styleChosenDiv(event);
+    }
+  })
 })
 
 async function display () {
   DomEle.contentDiv.innerHTML = "";
   const weatherJSON = await getWeatherJSON();
   showSummary(weatherJSON);
-  displayDailyWeather(weatherJSON);
+  await displayDailyWeather(weatherJSON);
 }
 
 async function changeHourly (index) {
@@ -43,3 +46,19 @@ function styleChosenDiv (event) {
     event.target.closest('.day-div').classList.add('selected');
   })
 }
+
+let isLoading = false;
+async function preventMultipleQueries (callback) {
+  if (isLoading) return;
+  isLoading = true;
+  try {
+    await callback();
+  } catch (err) {
+    console.log(err);
+  } finally {
+    isLoading = false;
+  }
+}
+
+// Validation
+// Loading style
