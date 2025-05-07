@@ -5,11 +5,32 @@ import { displayDailyWeather } from "./scripts/day-boxes.js";
 import { showSummary } from "./scripts/summary.js";
 import { hourlyDivs } from "./scripts/hour-boxes.js";
 import { cachedWeather } from "./scripts/get-weather.js";
+import { setDateOneMinMax, setDateTwoMinMax, isDateValid, isEmpty, isWhiteSpace, UserInput } from "./scripts/get-user-input.js";
+
+document.addEventListener('DOMContentLoaded', event => {
+  setDateOneMinMax();
+  DomEle.dateTwo.disabled = true;
+})
 
 DomEle.searchBtn.addEventListener('click', async (e) => {
-  if (DomEle.locationInput.value === cachedWeather.location) return;
+  if (isEmpty(DomEle.locationInput.value) || isWhiteSpace(DomEle.locationInput.value)) return;
+
+  if (UserInput.location === cachedWeather.location) return;
   DomEle.contentDiv.innerHTML = "";
   await preventMultipleQueries(display, DomEle.contentDiv);
+})
+
+DomEle.searchDiv.addEventListener('input', event => {
+  if (event.target.matches('#dateOne')) {
+    if (isDateValid(DomEle.dateOne)) {
+      setDateTwoMinMax();
+      DomEle.dateTwo.disabled = false;
+    } else {
+      DomEle.dateTwo.min = "";
+      DomEle.dateTwo.max = "";
+      DomEle.dateTwo.disabled = true;
+    }
+  }
 })
 
 DomEle.contentDiv.addEventListener('click', async (event) => {
@@ -80,5 +101,3 @@ function loading (parent) {
 
   return wrapper;
 }
-
-// Validation
