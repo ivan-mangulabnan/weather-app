@@ -3,6 +3,7 @@ header {
   width: 100%;
   background-color: var(--color-soft-blue);
   border-bottom: var(--color-soft-gray);
+  box-shadow: 0 5px 5px #ddd;
 
   display: flex;
   justify-content: center;
@@ -24,13 +25,23 @@ header {
 }
 
 .search-div > input:first-of-type {
+  font-family: var(--font-montserrat);
+  border-radius: 1rem;
+  padding-left: .5rem;
   border: none;
   width: 400px;
   outline: none;
 }
 
+.invalid {
+  border: 3px solid #ff000066;
+}
+
 .search-div > input[type="date"] {
-  width: 125px;
+  font-family: var(--font-montserrat);
+  padding-left: 1rem;
+  padding-right: .3rem;
+  border-radius: 1rem;
   border: none;
   outline: none;
   color: var(--color-black-font);
@@ -39,6 +50,7 @@ header {
 .search-icon {
   background: url("../assets/icons/magnify.svg");
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .search-btn {
@@ -51,4 +63,17 @@ header {
 
 .search-btn:hover {
   background-color: var(--color-hover-blue);
+}
+
+input[type="date"]:invalid {
+  background-color: #ffe6e6;
+  color: #b30000;
+}
+
+.date-two:disabled {
+  background-color: #f5f5f5;
+  color: #888;
+  border: 1px solid #ccc;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
