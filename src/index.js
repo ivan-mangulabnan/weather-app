@@ -7,33 +7,34 @@ import { hourlyDivs } from "./scripts/hour-boxes.js";
 import { cachedWeather } from "./scripts/get-weather.js";
 
 DomEle.searchBtn.addEventListener('click', async (e) => {
-  await preventMultipleQueries(display);
+  if (DomEle.locationInput.value === cachedWeather.location) return;
+  DomEle.contentDiv.innerHTML = "";
+  await preventMultipleQueries(display, DomEle.contentDiv);
 })
 
 DomEle.contentDiv.addEventListener('click', async (event) => {
-  preventMultipleQueries(async () => {
-    if (event.target.closest('.day-div')) {
-      const dayDiv = event.target.closest('.day-div');
-      const dayIndex = dayDiv.dataset.index;
-      if (dayIndex === document.querySelector('.day-div.selected').dataset.index) return;
+  if (event.target.closest('.day-div')) {
+    const dayDiv = event.target.closest('.day-div');
+    const dayIndex = dayDiv.dataset.index;
+    const hourDiv = document.querySelector('.hour-div');
+    if (dayIndex === document.querySelector('.day-div.selected').dataset.index) return;
+    hourDiv.innerHTML = "";
+    await preventMultipleQueries( async () => {
       await changeHourly(dayIndex);
-      styleChosenDiv(event);
-    }
-  })
+    }, hourDiv);
+    styleChosenDiv(event);
+  }
 })
 
 async function display () {
-  DomEle.contentDiv.innerHTML = "";
   const weatherJSON = await getWeatherJSON();
   showSummary(weatherJSON);
   await displayDailyWeather(weatherJSON);
 }
 
 async function changeHourly (index) {
-  let target = cachedWeather.days[index].hours;
+  let target = cachedWeather.data.days[index].hours;
   let hourlyDiv = document.querySelector('.hour-div');
-
-  hourlyDiv.innerHTML = "";
 
   const response = await Promise.all(target.map(hourlyDivs));
   response.forEach(div => hourlyDiv.appendChild(div));
@@ -48,17 +49,36 @@ function styleChosenDiv (event) {
 }
 
 let isLoading = false;
-async function preventMultipleQueries (callback) {
+async function preventMultipleQueries (callback, parent) {
   if (isLoading) return;
+
   isLoading = true;
+
+  const loader = loading(parent);
+
   try {
     await callback();
+
   } catch (err) {
     console.log(err);
+
   } finally {
     isLoading = false;
+
+    loader.remove();
   }
 }
 
+function loading (parent) {
+  const wrapper = document.createElement('div');
+  const p = document.createElement('p');
+
+  p.textContent = "Loading...";
+
+  wrapper.appendChild(p);
+  parent.appendChild(wrapper);
+
+  return wrapper;
+}
+
 // Validation
-// Loading style
